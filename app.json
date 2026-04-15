@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "IntelCore SaaS",
+    "slug": "intelcore-saas",
+    "scheme": "intelcore-saas",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#080D18",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#080D18"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.intelcore.saas",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Use Face ID to securely access IntelCore SaaS",
+        "NSCameraUsageDescription": "Used for document scanning"
+      }
+    },
+    "android": {
+      "package": "com.intelcore.saas",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#080D18",
+        "foregroundImage": "./assets/icon.png"
+      },
+      "permissions": ["INTERNET", "USE_BIOMETRIC", "USE_FINGERPRINT"],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [{ "scheme": "intelcore-saas" }],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "web": { 
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": ["expo-linear-gradient"],
+    "extra": {
+      "supabaseUrl": "https://YOUR_PROJECT.supabase.co",
+      "supabaseAnonKey": "YOUR_SUPABASE_ANON_KEY",
+      "opencodeApiKey": "YOUR_OPENCODE_API_KEY",
+      "eas": { "projectId": "YOUR_EAS_PROJECT_ID" }
+    }
+  }
+}
