@@ -3,10 +3,13 @@ import * as SecureStore from 'expo-secure-store';
 import Constants from 'expo-constants';
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
-// Replace these with your actual Supabase project values from:
-// https://supabase.com/dashboard → Project Settings → API
-export const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || 'https://YOUR_PROJECT.supabase.co';
-export const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.supabaseAnonKey || 'YOUR_ANON_KEY';
+export const SUPABASE_URL = Constants.expoConfig?.extra?.supabaseUrl || '';
+export const SUPABASE_ANON_KEY = Constants.expoConfig?.extra?.supabaseAnonKey || '';
+export const OPENCODE_API_KEY = Constants.expoConfig?.extra?.opencodeApiKey || '';
+export const FIREBASE_CONFIG = Constants.expoConfig?.extra?.firebase || {};
+export const PAYPAL_CONFIG = Constants.expoConfig?.extra?.paypal || {};
+export const PAYSTACK_CONFIG = Constants.expoConfig?.extra?.paystack || {};
+export const ADMIN_EMAIL = 'techengineerworkstation@gmail.com';
 
 // ─── SECURE STORAGE ADAPTER (required for React Native) ──────────────────────
 const ExpoSecureStoreAdapter = {

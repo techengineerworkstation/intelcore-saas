@@ -6,10 +6,7 @@ import {
 import { Colors, Spacing, Radius } from '../theme';
 import { insightQuestions } from '../data/mockData';
 import { useAuth } from '../context/AuthContext';
-import { queryService, opencodeAIService } from '../services/supabase';
-import Constants from 'expo-constants';
-
-const OPENCODE_API_KEY = Constants.expoConfig?.extra?.opencodeApiKey || '';
+import { queryService, opencodeAIService, OPENCODE_API_KEY } from '../services/supabase';
 
 const buildSystemPrompt = (profile) => `You are IntelCore SaaS, an elite enterprise business intelligence analyst.
 You are speaking with ${profile?.full_name || 'the CEO'} of ${profile?.company_name || 'the company'} (Role: ${profile?.role || 'Executive'}).
