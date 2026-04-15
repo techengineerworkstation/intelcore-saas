@@ -45,10 +45,22 @@
     },
     "plugins": ["expo-linear-gradient"],
     "extra": {
-      "supabaseUrl": "https://YOUR_PROJECT.supabase.co",
+      "supabaseUrl": "https://xncvbtkulhjdkuxdylam.supabase.co",
       "supabaseAnonKey": "YOUR_SUPABASE_ANON_KEY",
       "opencodeApiKey": "YOUR_OPENCODE_API_KEY",
-      "eas": { "projectId": "YOUR_EAS_PROJECT_ID" }
+      "eas": { "projectId": "e665eb16-164e-4722-a9e7-aed05504b5da" },
+      "firebase": {
+        "projectId": "intelcore-saas",
+        "clientEmail": "firebase-adminsdk-fbsvc@intelcore-saas.iam.gserviceaccount.com"
+      },
+      "paypal": {
+        "clientId": "YOUR_PAYPAL_CLIENT_ID",
+        "clientSecret": "YOUR_PAYPAL_CLIENT_SECRET"
+      },
+      "paystack": {
+        "publicKey": "YOUR_PAYSTACK_PUBLIC_KEY",
+        "secretKey": "YOUR_PAYSTACK_SECRET_KEY"
+      }
     }
   }
 }
