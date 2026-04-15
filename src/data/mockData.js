@@ -69,14 +69,46 @@ export const alertsData = [
 ];
 
 export const dataSources = [
-  { id: 1, name: 'Google Drive', icon: '📁', connected: true, records: '1,240 files', lastSync: '10 min ago' },
-  { id: 2, name: 'Salesforce CRM', icon: '☁️', connected: true, records: '8,412 contacts', lastSync: '1 hr ago' },
-  { id: 3, name: 'QuickBooks', icon: '💳', connected: true, records: '36 months', lastSync: '30 min ago' },
-  { id: 4, name: 'Zoom Meetings', icon: '🎥', connected: false, records: null, lastSync: null },
-  { id: 5, name: 'Dropbox', icon: '📦', connected: false, records: null, lastSync: null },
-  { id: 6, name: 'HubSpot', icon: '🔶', connected: false, records: null, lastSync: null },
-  { id: 7, name: 'MS Teams', icon: '💬', connected: false, records: null, lastSync: null },
-  { id: 8, name: 'PostgreSQL', icon: '🗄️', connected: true, records: '2.4M rows', lastSync: '5 min ago' },
+  // CRM Platforms
+  { id: 1, name: 'HubSpot', icon: '🔶', category: 'CRM', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 2, name: 'Salesforce', icon: '☁️', category: 'CRM', connected: true, records: '8,412 contacts', lastSync: '1 hr ago', type: 'oauth' },
+  { id: 3, name: 'Pipedrive', icon: '🎯', category: 'CRM', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 4, name: 'Zendesk', icon: '🎫', category: 'Support', connected: false, records: null, lastSync: null, type: 'oauth' },
+
+  // Project Management
+  { id: 5, name: 'Jira', icon: '📋', category: 'Project', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 6, name: 'Asana', icon: '✅', category: 'Project', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 7, name: 'Trello', icon: '📊', category: 'Project', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 8, name: 'Monday.com', icon: '📅', category: 'Project', connected: false, records: null, lastSync: null, type: 'oauth' },
+
+  // Finance
+  { id: 9, name: 'QuickBooks', icon: '💳', category: 'Finance', connected: true, records: '36 months', lastSync: '30 min ago', type: 'oauth' },
+  { id: 10, name: 'Xero', icon: '📈', category: 'Finance', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 11, name: 'Wave', icon: '🌊', category: 'Finance', connected: false, records: null, lastSync: null, type: 'oauth' },
+
+  // Communication
+  { id: 12, name: 'Zoom', icon: '🎥', category: 'Communication', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 13, name: 'Slack', icon: '💬', category: 'Communication', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 14, name: 'MS Teams', icon: '👥', category: 'Communication', connected: false, records: null, lastSync: null, type: 'oauth' },
+
+  // Storage
+  { id: 15, name: 'Google Drive', icon: '📁', category: 'Storage', connected: true, records: '1,240 files', lastSync: '10 min ago', type: 'oauth' },
+  { id: 16, name: 'Dropbox', icon: '📦', category: 'Storage', connected: false, records: null, lastSync: null, type: 'oauth' },
+  { id: 17, name: 'OneDrive', icon: '☁️', category: 'Storage', connected: false, records: null, lastSync: null, type: 'oauth' },
+
+  // Database
+  { id: 18, name: 'PostgreSQL', icon: '🗄️', category: 'Database', connected: true, records: '2.4M rows', lastSync: '5 min ago', type: 'database' },
+  { id: 19, name: 'MySQL', icon: '🐬', category: 'Database', connected: false, records: null, lastSync: null, type: 'database' },
+  { id: 20, name: 'MongoDB', icon: '🍃', category: 'Database', connected: false, records: null, lastSync: null, type: 'database' },
+
+  // File Upload Categories
+  { id: 21, name: 'Google Sheets', icon: '📗', category: 'Spreadsheet', connected: false, records: null, lastSync: null, type: 'file' },
+  { id: 22, name: 'Excel (XLSX)', icon: '📊', category: 'Spreadsheet', connected: false, records: null, lastSync: null, type: 'file' },
+  { id: 23, name: 'CSV Files', icon: '📋', category: 'Spreadsheet', connected: false, records: null, lastSync: null, type: 'file' },
+  { id: 24, name: 'PowerPoint (PPTX)', icon: '📽️', category: 'Presentation', connected: false, records: null, lastSync: null, type: 'file' },
+  { id: 25, name: 'PDF Documents', icon: '📄', category: 'Document', connected: false, records: null, lastSync: null, type: 'file' },
+  { id: 26, name: 'JSON Data', icon: '🔧', category: 'Data', connected: false, records: null, lastSync: null, type: 'file' },
+  { id: 27, name: 'XML Files', icon: '🔩', category: 'Data', connected: false, records: null, lastSync: null, type: 'file' },
 ];
 
 export const insightQuestions = [

@@ -223,12 +223,47 @@ export const dataSourceService = {
       user_id: userId,
       name: source.name,
       icon: source.icon,
+      category: source.category || null,
+      source_type: source.type || null,
       connected: source.connected,
       records: source.records || null,
+      parsed_data: source.parsedData || null,
+      extracted_metrics: source.extractedMetrics || null,
       last_sync: source.connected ? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'user_id, name' }).select().single();
     return { data, error };
+  },
+
+  // Save uploaded file data
+  saveUploadedFile: async (userId, fileInfo) => {
+    const { data, error } = await supabase.from('uploaded_files').insert({
+      user_id: userId,
+      file_name: fileInfo.fileName,
+      file_type: fileInfo.fileType,
+      file_size: fileInfo.fileSize,
+      category: fileInfo.category,
+      parsed_data: fileInfo.parsedData,
+      extracted_metrics: fileInfo.extractedMetrics,
+      status: fileInfo.status || 'processed',
+    }).select().single();
+    return { data, error };
+  },
+
+  // Get uploaded files
+  getUploadedFiles: async (userId) => {
+    const { data, error } = await supabase
+      .from('uploaded_files')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+    return { data, error };
+  },
+
+  // Delete uploaded file
+  deleteUploadedFile: async (fileId) => {
+    const { error } = await supabase.from('uploaded_files').delete().eq('id', fileId);
+    return { error };
   },
 };
 

@@ -98,8 +98,12 @@ CREATE TABLE IF NOT EXISTS public.data_sources (
   user_id     UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   name        TEXT NOT NULL,
   icon        TEXT,
+  category    TEXT,
+  source_type TEXT CHECK (source_type IN ('oauth', 'file', 'database', 'api')),
   connected   BOOLEAN DEFAULT FALSE,
   records     TEXT,
+  parsed_data JSONB,
+  extracted_metrics JSONB,
   last_sync   TIMESTAMPTZ,
   updated_at  TIMESTAMPTZ DEFAULT NOW(),
   UNIQUE (user_id, name)
@@ -109,6 +113,33 @@ ALTER TABLE public.data_sources ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can manage own data sources"
   ON public.data_sources FOR ALL USING (auth.uid() = user_id);
+
+
+-- ─────────────────────────────────────────────────────────────
+-- TABLE: uploaded_files
+-- Stores uploaded file data (Excel, CSV, PDF, PPTX, etc.)
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.uploaded_files (
+  id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id          UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  file_name        TEXT NOT NULL,
+  file_type        TEXT,
+  file_size        BIGINT,
+  category         TEXT,
+  parsed_data      JSONB,
+  extracted_metrics JSONB,
+  status           TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'processed', 'error')),
+  created_at       TIMESTAMPTZ DEFAULT NOW(),
+  updated_at       TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.uploaded_files ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own uploaded files"
+  ON public.uploaded_files FOR ALL USING (auth.uid() = user_id);
+
+CREATE INDEX IF NOT EXISTS idx_uploaded_files_user_id ON public.uploaded_files(user_id);
+CREATE INDEX IF NOT EXISTS idx_uploaded_files_status ON public.uploaded_files(status);
 
 
 -- ─────────────────────────────────────────────────────────────
