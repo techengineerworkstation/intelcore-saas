@@ -1,0 +1,3 @@
+module.exports=[74762,a=>{"use strict";var b=a.i(7997);a.s(["default",0,function({children:a}){return(0,b.jsxs)("html",{lang:"en",children:[(0,b.jsx)("head",{children:(0,b.jsx)("style",{children:"* { box-sizing: border-box; margin: 0; padding: 0; } html,body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #080D18; color: white; }"})}),(0,b.jsx)("body",{children:a})]})},"metadata",0,{title:"IntelCore SaaS - Enterprise Business Intelligence",description:"AI-powered business intelligence and KPI analytics platform"}])},98556,a=>{a.n(a.i(74762))}];
+
+//# sourceMappingURL=web_app_layout_tsx_0jxpzo_._.js.map

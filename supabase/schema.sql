@@ -348,3 +348,130 @@ BEGIN
   );
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+
+-- ─────────────────────────────────────────────────────────────
+-- TABLE: reports
+-- Stores generated reports
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.reports (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id     UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  name        TEXT NOT NULL,
+  type        TEXT NOT NULL,
+  format      TEXT DEFAULT 'pdf',
+  status      TEXT DEFAULT 'generating' CHECK (status IN ('generating', 'ready', 'error')),
+  file_url    TEXT,
+  data        JSONB,
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.reports ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own reports"
+  ON public.reports FOR ALL USING (auth.uid() = user_id);
+
+CREATE INDEX IF NOT EXISTS idx_reports_user_id ON public.reports(user_id);
+
+
+-- ─────────────────────────────────────────────────────────────
+-- TABLE: notifications
+-- Stores user notifications
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.notifications (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id     UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  title       TEXT NOT NULL,
+  body        TEXT,
+  type        TEXT DEFAULT 'info' CHECK (type IN ('info', 'success', 'warning', 'error')),
+  is_read     BOOLEAN DEFAULT FALSE,
+  created_at   TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own notifications"
+  ON public.notifications FOR ALL USING (auth.uid() = user_id);
+
+CREATE INDEX IF NOT EXISTS idx_notifications_user_unread
+  ON public.notifications(user_id, is_read) WHERE is_read = FALSE;
+
+
+-- ─────────────────────────────────────────────────────────────
+-- TABLE: user_settings
+-- Stores user preferences and settings
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.user_settings (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id     UUID NOT NULL UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
+  sound_enabled      BOOLEAN DEFAULT TRUE,
+  email_notifications BOOLEAN DEFAULT TRUE,
+  push_notifications BOOLEAN DEFAULT TRUE,
+  theme       TEXT DEFAULT 'dark',
+  currency    TEXT DEFAULT 'USD',
+  timezone    TEXT DEFAULT 'UTC',
+  language   TEXT DEFAULT 'en',
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.user_settings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own settings"
+  ON public.user_settings FOR ALL USING (auth.uid() = user_id);
+
+
+-- ─────────────────────────────────────────────────────────────
+-- TABLE: integrations
+-- Stores OAuth integration tokens and status
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.integrations (
+  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id       UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  provider      TEXT NOT NULL CHECK (provider IN ('google', 'apple', 'hubspot', 'salesforce', 'quickbooks', 'jira', 'zendesk', 'slack')),
+  access_token  TEXT,
+  refresh_token TEXT,
+  expires_at   TIMESTAMPTZ,
+  connected    BOOLEAN DEFAULT TRUE,
+  created_at   TIMESTAMPTZ DEFAULT NOW(),
+  updated_at   TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE (user_id, provider)
+);
+
+ALTER TABLE public.integrations ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can manage own integrations"
+  ON public.integrations FOR ALL USING (auth.uid() = user_id);
+
+
+-- ─────────────────────────────────────────────────────────────
+-- TABLE: audit_logs
+-- Tracks user actions for security/compliance
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.audit_logs (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id     UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  action      TEXT NOT NULL,
+  entity_type TEXT,
+  entity_id   UUID,
+  details     JSONB,
+  ip_address  TEXT,
+  user_agent  TEXT,
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+
+-- Admins can view all audit logs
+CREATE POLICY "Admins can view all audit logs"
+  ON public.audit_logs FOR SELECT 
+  USING (EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND is_admin = true));
+
+CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON public.audit_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON public.audit_logs(created_at DESC);
+
+
+-- ─────────────────────────────────────────────────────────────
+-- Admin function: Set user as admin (run this after schema)
+-- ─────────────────────────────────────────────────────────────
+-- UPDATE public.profiles SET is_admin = TRUE WHERE email = 'techengineerworkstation@gmail.com';

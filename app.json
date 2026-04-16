@@ -43,7 +43,7 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-linear-gradient"],
+    "plugins": [],
     "extra": {
       "supabaseUrl": "https://xncvbtkulhjdkuxdylam.supabase.co",
       "supabaseAnonKey": "YOUR_SUPABASE_ANON_KEY",
