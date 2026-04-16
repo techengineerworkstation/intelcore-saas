@@ -9,11 +9,11 @@ const colors = {
   text: { primary: '#F8FAFC', secondary: '#94A3B8', muted: '#64748B' },
 };
 
-const sidebarItems = [
+const sidebarItems: { icon: string; label: string; href: string; active: boolean; badge?: string }[] = [
   { icon: '◫', label: 'Dashboard', href: '/dashboard', active: false },
   { icon: '✦', label: 'AI Insights', href: '/insights', active: false },
   { icon: '◈', label: 'KPIs', href: '/kpis', active: false },
-  { icon: '◉', label: 'Alerts', href: '/alerts', active: true },
+  { icon: '◉', label: 'Alerts', href: '/alerts', active: true, badge: '3' },
   { icon: '⊕', label: 'Sources', href: '/sources', active: false },
   { icon: '📊', label: 'Reports', href: '/reports', active: false },
 ];
